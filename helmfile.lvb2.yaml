@@ -1,0 +1,21 @@
+repositories:
+- name: argo
+  url: https://argoproj.github.io/argo-helm
+- name: bitnami
+  url: https://charts.bitnami.com/bitnami
+- name: grafana
+  url: https://grafana.github.io/helm-charts
+
+# helmBinary: path/to/helm3
+
+helmDefaults:
+  wait: true
+  createNamespace: true
+
+releases:
+  - name: ddns-updater
+    namespace: default
+    chart: ./ddns-updater
+    version: 0.1.0
+    values:
+      - ./ddns-updater/values.lvb2.yaml
