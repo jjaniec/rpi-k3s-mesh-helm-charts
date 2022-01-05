@@ -1,3 +1,3 @@
-# creation_rules:
-  # - pgp: '....'
-  #   path_regex: .*/.*.secret[s]?.*.yaml
+creation_rules:
+  - pgp: '1DECE5B24F57689BD378285E5C1C29AE37A4CE7C'
+    path_regex: .*/.*.secret[s]?.*.yaml
