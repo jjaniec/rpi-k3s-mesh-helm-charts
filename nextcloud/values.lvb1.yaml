@@ -1,0 +1,13 @@
+nextcloud:
+  host: nextcloud.jjaniec.eu.org
+  username: x
+  password: x
+
+service:
+  type: NodePort
+  nodePort: 30000
+
+readinessProbe:
+  initialDelaySeconds: 360
+livenessProbe:
+  initialDelaySeconds: 360

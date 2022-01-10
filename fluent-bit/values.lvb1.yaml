@@ -1,0 +1,11 @@
+podLabels:
+  release: fluent-bit
+  env: lvb1
+
+resources:
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi

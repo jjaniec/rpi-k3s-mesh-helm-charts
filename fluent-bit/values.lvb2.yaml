@@ -1,0 +1,3 @@
+podLabels:
+  release: fluent-bit
+  env: lvb2

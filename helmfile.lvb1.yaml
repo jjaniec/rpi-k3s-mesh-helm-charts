@@ -1,14 +1,10 @@
 repositories:
-- name: argo
-  url: https://argoproj.github.io/argo-helm
 - name: bitnami
   url: https://charts.bitnami.com/bitnami
-- name: grafana
-  url: https://grafana.github.io/helm-charts
+- name: fluent
+  url: https://fluent.github.io/helm-charts
 - name: nextcloud
   url: https://nextcloud.github.io/helm/
-
-# helmBinary: path/to/helm3
 
 helmDefaults:
   wait: true
@@ -16,15 +12,24 @@ helmDefaults:
 
 releases:
   - name: ddns-updater
-    namespace: default
+    namespace: tooling
     chart: ./ddns-updater
     version: 0.1.0
     values:
       - ./ddns-updater/values.lvb1.yaml
 
-  - name: nextcloud
-    namespace: default
-    chart: nextcloud/nextcloud
-    version: 2.11.3
+  - name: fluent-bit
+    namespace: tooling
+    chart: fluent/fluent-bit
+    version: 0.19.17
     values:
-      - ./nextcloud/values.lvb1.yaml
+      - ./fluent-bit/values.lvb1.yaml
+    secrets:
+      - ./fluent-bit/secrets.lvb1.yaml
+
+  # - name: nextcloud
+  #   namespace: default
+  #   chart: nextcloud/nextcloud
+  #   version: 2.11.3
+  #   values:
+  #     - ./nextcloud/values.lvb1.yaml

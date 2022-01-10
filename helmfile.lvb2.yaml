@@ -1,12 +1,8 @@
 repositories:
-- name: argo
-  url: https://argoproj.github.io/argo-helm
 - name: bitnami
   url: https://charts.bitnami.com/bitnami
-- name: grafana
-  url: https://grafana.github.io/helm-charts
-
-# helmBinary: path/to/helm3
+- name: fluent
+  url: https://fluent.github.io/helm-charts
 
 helmDefaults:
   wait: true
@@ -14,8 +10,17 @@ helmDefaults:
 
 releases:
   - name: ddns-updater
-    namespace: default
+    namespace: tooling
     chart: ./ddns-updater
     version: 0.1.0
     values:
       - ./ddns-updater/values.lvb2.yaml
+
+  - name: fluent-bit
+    namespace: tooling
+    chart: fluent/fluent-bit
+    version: 0.19.17
+    values:
+      - ./fluent-bit/values.lvb1.yaml
+    secrets:
+      - ./fluent-bit/secrets.lvb1.yaml
