@@ -9,6 +9,7 @@ repositories:
 helmDefaults:
   wait: true
   createNamespace: true
+  timeout: 600
 
 releases:
   - name: ddns-updater
@@ -31,11 +32,11 @@ releases:
     namespace: tooling
     chart: ./upnp-cronjob
     values:
-      - ./upnp-cronjob/lvb1.values.yaml
+      - ./upnp-cronjob/values.lvb1.yaml
 
-  # - name: nextcloud
-  #   namespace: default
-  #   chart: nextcloud/nextcloud
-  #   version: 2.11.3
-  #   values:
-  #     - ./nextcloud/values.lvb1.yaml
+  - name: nextcloud
+    namespace: default
+    chart: nextcloud/nextcloud
+    version: 2.11.3
+    values:
+      - ./nextcloud/values.lvb1.yaml

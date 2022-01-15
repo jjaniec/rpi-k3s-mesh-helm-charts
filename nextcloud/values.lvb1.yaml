@@ -1,3 +1,7 @@
+podLabels:
+  release: nextcloud
+  env: lvb1
+
 nextcloud:
   host: nextcloud.jjaniec.eu.org
   username: x

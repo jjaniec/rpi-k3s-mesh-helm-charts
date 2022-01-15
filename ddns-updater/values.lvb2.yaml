@@ -1,1 +1,5 @@
 logLevel: debug
+
+podLabels:
+  release: ddns-updater
+  env: lvb2

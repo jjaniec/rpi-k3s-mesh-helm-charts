@@ -3,10 +3,13 @@ repositories:
   url: https://charts.bitnami.com/bitnami
 - name: fluent
   url: https://fluent.github.io/helm-charts
+- name: nextcloud
+  url: https://nextcloud.github.io/helm/
 
 helmDefaults:
   wait: true
   createNamespace: true
+  timeout: 600
 
 releases:
   - name: ddns-updater
@@ -21,6 +24,12 @@ releases:
     chart: fluent/fluent-bit
     version: 0.19.17
     values:
-      - ./fluent-bit/values.lvb1.yaml
+      - ./fluent-bit/values.lvb2.yaml
     secrets:
-      - ./fluent-bit/secrets.lvb1.yaml
+      - ./fluent-bit/secrets.lvb2.yaml
+
+  - name: upnp-cronjob
+    namespace: tooling
+    chart: ./upnp-cronjob
+    values:
+      - ./upnp-cronjob/values.lvb2.yaml

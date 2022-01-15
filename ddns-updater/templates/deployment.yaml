@@ -15,6 +15,9 @@ spec:
       creationTimestamp: null
       labels:
         app: ddns-updater
+        {{- if .Values.podLabels }}
+{{ toYaml .Values.podLabels | indent 8 }}
+        {{- end }}
     spec:
       containers:
       - image: qmcgaw/ddns-updater
