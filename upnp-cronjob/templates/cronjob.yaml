@@ -1,0 +1,71 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "upnp-cronjob.fullname" . }}
+  labels:
+    {{- include "upnp-cronjob.labels" . | nindent 4 }}
+spec:
+  schedule: "{{ .Values.schedule }}"
+  jobTemplate:
+    metadata:
+      name: {{ include "upnp-cronjob.fullname" . }}
+      labels:
+        {{- include "upnp-cronjob.labels" . | nindent 8 }}
+    spec:
+      backoffLimit: 2
+      template:
+        metadata:
+          name: {{ include "upnp-cronjob.fullname" . }}
+          labels:
+            {{- include "upnp-cronjob.labels" . | nindent 12 }}
+          {{- if .Values.podLabels }}
+{{ toYaml .Values.podLabels | indent 12 }}
+          {{- end }}
+        spec:
+          serviceAccountName: {{ include "upnp-cronjob.serviceAccountName" . }}
+          restartPolicy: "Never"
+{{/*
+{{- with .Values.imagePullSecrets }}
+imagePullSecrets:
+  {{- toYaml . | nindent 8 }}
+{{- end }}
+securityContext:
+  {{- toYaml .Values.podSecurityContext | nindent 8 }}
+*/}}
+          containers:
+            - name: {{ .Chart.Name }}
+              command: [ "sh", "-c", "apk add bash && /mnt/run.sh"]
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              resources:
+                {{- toYaml .Values.resources | nindent 16 }}
+              env:
+              - name: FORWARDING_IP
+                value: "{{ .Values.upnp.forwardIp }}"
+              - name: DESCRIPTION_XML_URL
+                value: "{{ .Values.upnp.descriptionXmlUrl }}"
+              - name: TCP_PORT_FORWARDS
+                value: "{{ join "," .Values.upnp.forwardPortsTcp }}"
+              - name: UDP_PORT_FORWARDS
+                value: "{{ join "," .Values.upnp.forwardPortsUdp }}"
+              volumeMounts:
+              - name: scripts-vol
+                mountPath: /mnt/run.sh
+                subPath: run.sh
+
+          volumes:
+          - name: scripts-vol
+            configMap:
+              name: {{ include "upnp-cronjob.fullname" . }}
+              defaultMode: 0777
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with .Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with .Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "upnp-cronjob.fullname" . }}
+  labels:
+    {{- include "upnp-cronjob.labels" . | nindent 4 }}
+data:
+{{ (.Files.Glob "scripts/run.sh").AsConfig | indent 2 }}

@@ -1,0 +1,21 @@
+schedule: "0 * * * *"
+
+image:
+  repository: florianpiesche/miniupnpc
+  tag: latest
+
+podLabels:
+  release: upnp-cronjob
+
+serviceAccount:
+  create: true
+  name: upnp-cronjob
+  env: lvb1
+
+upnp:
+  descriptionXmlUrl: http://192.168.1.1:60000/887bd898/gatedesc.xml
+  forwardPortsTcp: [ "8080", "6443", "41208:41208" ] # 80, 443 not allowed with upnp
+  forwardPortsUdp: []
+  forwardIp: "192.168.1.17" # Control-plane ip
+
+resources: {}
