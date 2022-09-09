@@ -1,0 +1,11 @@
+resources:
+  requests:
+    cpu: 50m
+    memory: 250Mi
+
+# extraArgs:
+#   kubelet-preferred-address-types: InternalIP
+#   kubelet-insecure-tls: true
+
+apiService:
+  create: true

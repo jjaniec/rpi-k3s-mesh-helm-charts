@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tgvmax-bot-backend.fullname" . }}
+  labels:
+    {{- include "tgvmax-bot-backend.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "tgvmax-bot-backend.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "tgvmax-bot-backend.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "tgvmax-bot-backend.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: init-sqlite
+          image: alpine
+          command: ["sh", "-c", "[ -f /mnt/tgvmax.sqlite ] || touch /mnt/tgvmax.sqlite"]
+          volumeMounts:
+          - name: sqlite
+            mountPath: /mnt
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          # command: ["sh","-c","sleep infinity"]
+          command: ["sh", "-c", "( ls ./tgvmax.sqlite || ln -s /mnt/tgvmax.sqlite ./tgvmax.sqlite) && ./node_modules/.bin/ts-node index.ts"]
+          volumeMounts:
+            - name: sqlite
+              mountPath: /mnt
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /api/stations/autocomplete?searchTerm=ffe
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /api/stations/autocomplete?searchTerm=ffe
+          #     port: http
+          #   initalDelaySeconds: 60
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: sqlite
+          hostPath:
+            path: /k3s-volumes/tgvmax-bot
+

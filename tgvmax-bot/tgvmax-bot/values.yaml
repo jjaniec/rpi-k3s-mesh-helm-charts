@@ -1,0 +1,9 @@
+tgvmax-bot-backend:
+  image:
+    repository: jjaniec/tgvmax-bot-backend
+    tag: test3
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi

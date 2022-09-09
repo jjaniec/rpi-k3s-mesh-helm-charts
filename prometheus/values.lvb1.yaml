@@ -1,0 +1,83 @@
+grafana:
+  enabled: false
+
+pushgateway:
+  enabled: false
+
+coreDns:
+  enabled: true
+
+kubeEtcd:
+  enabled: false
+
+kubeProxy:
+  enabled: false
+
+kubeScheduler:
+  enabled: false
+
+kubelet:
+  enabled: false
+
+kubeControllerManager:
+  enabled: false
+
+nodeExporter:
+  enabled: true
+
+prometheusOperator:
+  enabled: true
+
+  resources:
+    limits:
+      cpu: 100m
+      memory: 100Mi
+    requests:
+      cpu: 50m
+      memory: 100Mi
+
+prometheus:
+  enabled: true
+
+  prometheusSpec:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 800Mi
+
+    retention: 0d
+    scrapeInterval: 60s
+
+    enableAdminAPI: true
+
+    remoteWrite:
+    - url: https://prometheus-prod-01-eu-west-0.grafana.net/api/prom/push
+      name: Grafana_cloud
+      basicAuth:
+        # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#secretkeyselector-v1-core
+        username:
+          key: username
+          name: grafana-cloud-credentials
+        password:
+          key: password
+          name: grafana-cloud-credentials
+
+    # https://github.com/helm/charts/blob/master/stable/prometheus-operator/README.md#prometheusioscrape
+    serviceMonitorSelectorNilUsesHelmValues: false
+
+    ## ServiceMonitors to be selected for target discovery.
+    ## If {}, select all ServiceMonitors
+    ##
+    serviceMonitorSelector: {}
+
+    ## Example which selects ServiceMonitors with label "prometheus" set to "somelabel"
+    # serviceMonitorSelector:
+    #   matchLabels:
+    #     prometheus: somelabel
+
+    additionalScrapeConfigs: []
+
+  additionalServiceMonitors: []
+
+alertmanager:
+  enabled: true
