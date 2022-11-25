@@ -1,0 +1,6 @@
+tailscale-relay:
+  podLabels:
+    env: lvb1
+
+  config:
+    variables: {}

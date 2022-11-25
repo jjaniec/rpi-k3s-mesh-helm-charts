@@ -7,3 +7,15 @@ tgvmax-bot-backend:
     requests:
       cpu: 100m
       memory: 256Mi
+
+tgvmax-bot-frontend:
+  replicaCount: 1
+
+  # image:
+  #   repository: jjaniec/tgvmax-bot-backend
+  #   tag: test3
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi

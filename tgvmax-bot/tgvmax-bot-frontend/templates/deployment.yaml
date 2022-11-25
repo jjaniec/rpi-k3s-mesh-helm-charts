@@ -27,6 +27,7 @@ spec:
       serviceAccountName: {{ include "tgvmax-bot-frontend.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      nodeName: raspberrypi
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -38,10 +39,15 @@ spec:
               containerPort: 80
               protocol: TCP
           livenessProbe:
+            periodSeconds: 10
+            initialDelaySeconds: 60
+            failureThreshold: 10
             httpGet:
               path: /
               port: http
           readinessProbe:
+            initialDelaySeconds: 60
+            periodSeconds: 10
             httpGet:
               path: /
               port: http

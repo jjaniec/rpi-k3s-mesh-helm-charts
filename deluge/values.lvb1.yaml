@@ -1,0 +1,9 @@
+persistence:
+  config:
+    enabled: true
+    mountPath: /k3s-volumes/deluge-config
+  downloads:
+    enabled: true
+    mountPath: /k3s-volumes/deluge-downloads
+    type: hostPath
+    hostPath: /k3s-volumes/deluge-downloads

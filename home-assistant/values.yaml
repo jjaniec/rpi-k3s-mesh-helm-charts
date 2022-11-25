@@ -1,0 +1,7 @@
+home-assistant:
+  env:
+    TZ: "Europe/Paris"
+
+  persistence:
+    config:
+      enabled: true

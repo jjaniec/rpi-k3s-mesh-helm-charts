@@ -1,0 +1,60 @@
+argo-workflows:
+  crds:
+    install: true
+
+  controller:
+    podAnnotations:
+
+    podLabels:
+      app: argo-workflows
+
+    metricsConfig:
+      enabled: true
+
+    persistence: {}
+
+    resources:
+      requests:
+        cpu: 200m
+        memory: 1Gi
+      limits:
+        memory: 1Gi
+
+    # replicas: 2
+    # pdb:
+    #   enabled: true
+    #   maxUnavailable: 1
+
+    nodeSelector:
+      kubernetes.io/os: linux
+
+  # mainContainer adds default config for main container that could be overriden in workflows template
+  mainContainer:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 500Mi
+      limits:
+        memory: 1Gi
+
+  # executor controls how the init and wait container should be customized
+  executor:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 500Mi
+      limits:
+        memory: 1Gi
+
+  server:
+    enabled: true
+
+    podLabels:
+      app: argo-server
+
+    podAnnotations: {}
+
+    replicas: 2
+    pdb:
+      enabled: true
+      maxUnavailable: 1

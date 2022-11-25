@@ -1,0 +1,6 @@
+tailscale-relay:
+  podLabels:
+    env: ocp
+
+  config:
+    variables: {}

@@ -1,12 +1,4 @@
-repositories:
-- name: bitnami
-  url: https://charts.bitnami.com/bitnami
-- name: fluent
-  url: https://fluent.github.io/helm-charts
-- name: nextcloud
-  url: https://nextcloud.github.io/helm/
-- name: minio
-  url: https://helm.min.io/
+repositories: []
 
 helmDefaults:
   wait: true
@@ -14,49 +6,62 @@ helmDefaults:
   timeout: 600
 
 releases:
-  # # Tooling
-  # - name: ddns-updater
-  #   namespace: tooling
-  #   chart: ./ddns-updater
-  #   version: 0.1.0
-  #   values:
-  #     - ./ddns-updater/values.lvb1.yaml
 
-  # - name: fluent-bit
-  #   namespace: tooling
-  #   chart: fluent/fluent-bit
-  #   version: 0.19.17
-  #   values:
-  #     - ./fluent-bit/values.lvb1.yaml
-  #   secrets:
-  #     - ./fluent-bit/secrets.lvb1.yaml
+# Tailscale
 
-  # - name: upnp-cronjob
-  #   namespace: tooling
-  #   chart: ./upnp-cronjob
-  #   values:
-  #     - ./upnp-cronjob/values.lvb1.yaml
+- name: tailscale-relay
+  namespace: default
+  chart: tailscale-relay
+  values:
+  - tailscale-relay/values.lvb1.yaml
+  secrets:
+  - tailscale-relay/secrets.lvb1.yaml
 
-  # # Services
-  # - name: nextcloud
-  #   namespace: default
-  #   chart: nextcloud/nextcloud
-  #   version: 2.11.3
-  #   values:
-  #     - ./nextcloud/values.lvb1.yaml
+# Ingresses
 
-  - name: minio
-    namespace: default
-    chart: minio/minio
-    version: 8.0.10
-    values:
-      - ./minio/values.lvb1.yaml
-    # secrets:
-      - ./minio/secrets.lvb1.yaml
+- name: ingress
+  chart: ingress
+  values: []
+  secrets:
+  - ingress/secrets.lvb1.yaml
 
-  # - name: kafka
-  #   namespace: default
-  #   chart: bitnami/kafka
-  #   # version: 3.4.8
-  #   values:
-  #     - ./kafka/values.lvb1.yaml
+# Kube-related
+
+# - name: metrics-server
+#   chart: metrics-server
+#   values:
+#   - ./metrics-server/values.lvb1.yaml
+
+- name: priority-classes
+  namespace: tooling
+  chart: priority-classes
+  values:
+  - ./priority-classes/values.lvb1.yaml
+
+# Services
+
+- name: homer
+  namespace: public
+  chart: homer
+  values:
+  - homer/values.lvb1.yaml
+
+- name: home-assistant
+  namespace: local
+  chart: home-assistant
+  values:
+  - home-assistant/values.lvb1.yaml
+
+- name: deluge
+  namespace: local
+  chart: deluge
+  values:
+  - deluge/values.lvb1.yaml
+
+# - name: minio
+#   namespace: tooling
+#   chart: minio
+#   values:
+#   - minio/values.lvb1.yaml
+#   secrets:
+#   - minio/secrets.lvb1.yaml

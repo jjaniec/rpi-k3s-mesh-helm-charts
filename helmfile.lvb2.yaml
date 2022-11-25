@@ -1,10 +1,4 @@
-repositories:
-- name: bitnami
-  url: https://charts.bitnami.com/bitnami
-- name: fluent
-  url: https://fluent.github.io/helm-charts
-- name: nextcloud
-  url: https://nextcloud.github.io/helm/
+repositories: []
 
 helmDefaults:
   wait: true

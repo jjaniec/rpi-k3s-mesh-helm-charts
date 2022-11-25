@@ -1,0 +1,24 @@
+tailscale-relay:
+  hostNetwork: true
+
+  podLabels:
+    app: tailscale-relay
+
+  resources:
+    limits:
+      cpu: 50m
+      memory: 64Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+  config:
+    authKey: ""
+    variables:
+      TAILSCALE_ADVERTISE_EXIT_NODES: "true"
+      TAILSCALED_VERBOSE: "1"
+
+  hostAliases:
+    - ip: "10.43.0.1"
+      hostnames:
+        - "kubernetes.default.svc"

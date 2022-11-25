@@ -1,0 +1,19 @@
+home-assistant:
+  # affinity:
+  #   nodeAffinity:
+  #     requiredDuringSchedulingIgnoredDuringExecution:
+  #       nodeSelectorTerms:
+  #       - matchExpressions:
+  #         - key: kubernetes.io/hostname
+  #           operator: In
+  #           values:
+  #           - rpi41g
+
+  hostNetwork: true
+
+  dnsPolicy: ClusterFirstWithHostNet
+
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
