@@ -1,0 +1,12 @@
+priorityClasses:
+- name: default
+  description: "Default priority class."
+  value: 0
+  globalDefault: true
+- name: high-priority
+  description: "Used for important pods, but can be moved to another node if necessary."
+  value: 1000000
+- name: high-priority-nonpreempting
+  description: "This priority class will not cause other pods to be preempted."
+  value: 1000000
+  preemptionPolicy: Never

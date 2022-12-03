@@ -1,0 +1,11 @@
+promtail:
+  resources:
+    limits:
+      cpu: 200m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  extraArgs:
+    - -client.external-labels=env=ocp

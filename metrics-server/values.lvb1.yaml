@@ -1,11 +1,12 @@
-resources:
-  requests:
-    cpu: 50m
-    memory: 250Mi
+metrics-server:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 250Mi
 
-# extraArgs:
-#   kubelet-preferred-address-types: InternalIP
-#   kubelet-insecure-tls: true
+  # extraArgs:
+  #   kubelet-preferred-address-types: InternalIP
+  #   kubelet-insecure-tls: true
 
-apiService:
-  create: true
+  apiService:
+    create: true

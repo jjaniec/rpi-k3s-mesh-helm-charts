@@ -1,0 +1,21 @@
+minecraft:
+  resources:
+    requests:
+      memory: 8Gi
+      cpu: 2
+
+  minecraftServer:
+    eula: "true"
+    version: "LATEST"
+    type: "VANILLA"
+    difficulty: "normal"
+    maxPlayers: "3"
+    memory: 8192M
+    serviceType: NodePort
+    nodePort: 31313
+    pvp: true
+
+  persistence:
+    dataDir:
+      enabled: true
+      Size: 2Gi

@@ -1,0 +1,80 @@
+repositories: []
+
+helmDefaults:
+  wait: true
+  createNamespace: true
+  timeout: 600
+
+releases:
+
+# Tailscale
+
+- name: tailscale-relay
+  namespace: default
+  chart: tailscale-relay
+  values:
+  - tailscale-relay/values.ocp.yaml
+  secrets:
+  - tailscale-relay/secrets.ocp.yaml
+
+# Ingresses
+
+# - name: ingress
+#   chart: ingress
+#   values: []
+#   secrets:
+#   - ingress/secrets.ocp.yaml
+
+# Kube-related / Tooling
+
+- name: node-exporter
+  # namespace: tooling
+  chart: node-exporter
+  values:
+  - ./node-exporter/values.ocp.yaml
+
+- name: metrics-server
+  namespace: tooling
+  chart: metrics-server
+  values:
+  - ./metrics-server/values.ocp.yaml
+
+- name: priority-classes
+  namespace: tooling
+  chart: priority-classes
+  values:
+  - ./priority-classes/values.ocp.yaml
+
+- name: promtail
+  namespace: tooling
+  chart: promtail
+  values:
+  - ./promtail/values.ocp.yaml
+  secrets: 
+  - ./promtail/secrets.ocp.yaml
+
+# - name: minio
+#   namespace: tooling
+#   chart: minio
+#   values:
+#   - ./minio/values.ocp.yaml
+#   secrets: 
+#   - ./minio/secrets.ocp.yaml
+
+# Services
+
+- name: argo-workflows
+  namespace: default
+  chart: argo-workflows
+  values:
+  - argo-workflows/values.ocp.yaml
+  secrets:
+  - argo-workflows/secrets.ocp.yaml
+
+- name: minecraft-server
+  namespace: default
+  chart: minecraft-server
+  values:
+  - minecraft-server/values.ocp.yaml
+  secrets:
+  - minecraft-server/secrets.ocp.yaml

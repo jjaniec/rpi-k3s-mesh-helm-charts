@@ -4,5 +4,5 @@
 ENV=lvb1
 
 helmfile --file "helmfile.${ENV}.yaml" deps
-helmfile --file "helmfile.${ENV}.yaml" sync --skip-repos
+helmfile --file "helmfile.${ENV}.yaml" sync --skip-deps
 ```

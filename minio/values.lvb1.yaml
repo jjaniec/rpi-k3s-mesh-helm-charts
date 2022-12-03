@@ -1,14 +1,14 @@
-podLabels:
-  release: minio
-  env: lvb1
+minio:
+  podLabels:
+    env: lvb1
 
-service:
-  type: NodePort
+  service:
+    type: NodePort
 
-image:
-  repository: pixelchrome/minio-arm
-  tag: latest
+  image:
+    repository: pixelchrome/minio-arm
+    tag: latest
 
-resources:
-  requests:
-    memory: "1Gi"
+  resources:
+    requests:
+      memory: "1Gi"

@@ -1,0 +1,23 @@
+metrics-server:
+  podLabels:
+    app: metrics-server
+    env: ocp
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 250Mi
+
+  args:
+    - --kubelet-preferred-address-types=InternalIP
+    - --kubelet-insecure-tls=true
+    - --metric-resolution=15s
+
+  apiService:
+    create: true
+
+  hostNetwork:
+    enabled: true
+
+  updateStrategy:
+    type: Recreate

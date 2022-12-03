@@ -1,8 +1,0 @@
-podLabels:
-  release: fluent-bit
-  env: lvb2
-
-resources:
-  requests:
-    cpu: 10m
-    memory: 10Mi

@@ -1,0 +1,17 @@
+{{- $relname := .Release.Name -}}
+{{- range .Values.ingresses }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $relname }}{{ .nameSuffix }}
+  namespace: {{ .namespace }}
+  annotations:
+    kubernetes.io/ingress.class: {{ $.Values.ingressClass }}
+  labels:
+    app: {{ $relname }}
+    release: {{ $relname }}
+spec:
+  rules:
+{{ toYaml .specs | indent 2 }}
+{{- end }}
